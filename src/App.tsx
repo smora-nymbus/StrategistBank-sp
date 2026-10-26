@@ -1,7 +1,7 @@
-import { SplashPage } from "@/pages";
+import { DesignSystemPage } from "@/design-system/DesignSystemPage";
 
 function App() {
-  return <SplashPage />;
+  return <DesignSystemPage />;
 }
 
 export default App;

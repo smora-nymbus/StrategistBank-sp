@@ -1,3 +1,5 @@
+import { AnimatedSection } from "../ui/AnimatedSection";
+
 export function Header() {
   return (
     <header className="relative bg-[#faf9f5] flex flex-col gap-6 md:gap-10 items-start pb-10 md:pb-14 pt-8 md:pt-12 px-5 sm:px-10 md:px-16 lg:px-20 overflow-hidden">
@@ -16,7 +18,10 @@ export function Header() {
       />
 
       {/* Logo section */}
-      <div className="relative flex flex-col gap-2 md:gap-3 items-start w-full">
+      <AnimatedSection
+        className="relative flex flex-col gap-2 md:gap-3 items-start w-full"
+        delay={0}
+      >
         <img
           src="/images/logo.svg"
           alt="Strategist Bank"
@@ -25,17 +30,20 @@ export function Header() {
         <p className="font-outfit font-semibold text-[10px] md:text-[11px] uppercase tracking-wide text-[#4a934f]">
           In organization
         </p>
-      </div>
+      </AnimatedSection>
 
       {/* Hero text */}
-      <div className="relative flex flex-col items-center w-full">
+      <AnimatedSection
+        className="relative flex flex-col items-center w-full"
+        delay={200}
+      >
         <h1 className="font-barlow font-bold text-4xl sm:text-5xl md:text-6xl lg:text-[72px] text-[#11224d] text-center leading-[1.05]">
           <span className="block">Take the next step.</span>
           <span className="block">
             Invest in the bank that thinks like a Business.
           </span>
         </h1>
-      </div>
+      </AnimatedSection>
     </header>
   );
 }

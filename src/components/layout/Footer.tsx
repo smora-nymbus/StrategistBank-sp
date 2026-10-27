@@ -1,8 +1,10 @@
+import { AnimatedSection } from "../ui/AnimatedSection";
+
 export function Footer() {
   return (
     <footer className="bg-linear-to-r from-[#1e3366] via-[#1e3366] via-55% to-[#0f1b2d] flex flex-col gap-8 md:gap-12 items-start pb-8 md:pb-10 pt-12 md:pt-20 px-5 sm:px-10 md:px-16 lg:px-20 w-full">
       {/* Footer main content */}
-      <div className="flex flex-col md:flex-row items-start justify-between gap-8 md:gap-4 w-full">
+      <AnimatedSection className="flex flex-col md:flex-row items-start justify-between gap-8 md:gap-4 w-full">
         {/* Brand column */}
         <div className="flex flex-col gap-4 items-start w-full md:w-95">
           <img
@@ -58,13 +60,18 @@ export function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </AnimatedSection>
 
       {/* Divider line */}
-      <div className="w-full h-px bg-[#2C4A92]" />
+      <AnimatedSection className="w-full" delay={100}>
+        <div className="w-full h-px bg-[#2C4A92]" />
+      </AnimatedSection>
 
       {/* Bottom section */}
-      <div className="flex flex-col gap-4 items-start w-full">
+      <AnimatedSection
+        className="flex flex-col gap-4 items-start w-full"
+        delay={200}
+      >
         <p className="font-garamond italic text-[11px] md:text-[12px] text-[#7a99c1] leading-normal w-full">
           Disclosures: This page is for general information only and is not an
           offer to sell or a solicitation of an offer to buy securities. Any
@@ -81,7 +88,7 @@ export function Footer() {
             Southern New Hampshire &amp; The Seacoast Region
           </p>
         </div>
-      </div>
+      </AnimatedSection>
     </footer>
   );
 }

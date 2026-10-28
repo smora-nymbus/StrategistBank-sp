@@ -110,3 +110,59 @@ Before committing, verify layouts at these widths:
 - [ ] 1024px (iPad landscape / small laptop)
 - [ ] 1280px (Desktop)
 - [ ] 1440px+ (Large desktop / design reference)
+
+## Typography: Widow & Orphan Prevention
+
+Prevent widows (single words on the last line) across all breakpoints:
+
+### CSS Approach
+
+Apply `text-wrap: balance` or `text-wrap: pretty` to headings and short paragraphs:
+
+```tsx
+// For headings - balances line lengths
+className = "text-balance";
+
+// For body text - prevents widows
+className = "text-pretty";
+```
+
+### Manual Line Breaks
+
+For precise control, use responsive `<br>` tags:
+
+```tsx
+<h2>
+  Built for the community.
+  <br className="hidden sm:block" />
+  <span className="sm:hidden"> </span>
+  Inspired by what comes next.
+</h2>
+```
+
+### Non-Breaking Spaces
+
+For short phrases that should stay together, use `&nbsp;`:
+
+```tsx
+<p>Learn&nbsp;more</p>
+```
+
+### Max-Width Constraints
+
+Constrain text containers to prevent overly long lines that cause awkward breaks:
+
+```tsx
+className = "max-w-prose"; // ~65ch
+className = "max-w-xl"; // 576px
+className = "max-w-2xl"; // 672px
+```
+
+### Verification
+
+At each breakpoint, check:
+
+- [ ] Headlines don't have single-word last lines
+- [ ] Button text doesn't wrap awkwardly
+- [ ] Card descriptions have balanced line lengths
+- [ ] No orphaned words at the end of paragraphs

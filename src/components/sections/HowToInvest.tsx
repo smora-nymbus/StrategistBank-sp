@@ -149,7 +149,7 @@ export function HowToInvest() {
   ];
 
   return (
-    <section className="relative bg-linear-to-r from-[#1e3366] from-[55.29%] to-[#0f1b2d] flex flex-col gap-6 md:gap-8 px-5 sm:px-10 md:px-16 lg:px-20 py-6 md:py-9 w-full">
+    <section className="relative bg-linear-to-r from-[#1e3366] from-[55.29%] to-[#0f1b2d] flex flex-col gap-6 md:gap-8 px-5 sm:px-10 md:px-16 lg:px-20 py-10 md:py-16 lg:py-20 w-full">
       {/* Background decoration - hidden on mobile */}
       <img
         src="/images/steps-bg.svg"

@@ -2,7 +2,11 @@ import { useState, useRef, useEffect } from "react";
 
 type ImageFormat = "svg" | "png" | "jpg" | "gif" | "bmp";
 
-const FORMAT_OPTIONS: { value: ImageFormat; label: string; mimeType: string }[] = [
+const FORMAT_OPTIONS: {
+  value: ImageFormat;
+  label: string;
+  mimeType: string;
+}[] = [
   { value: "svg", label: "SVG (Vector)", mimeType: "image/svg+xml" },
   { value: "png", label: "PNG", mimeType: "image/png" },
   { value: "jpg", label: "JPG", mimeType: "image/jpeg" },
@@ -13,12 +17,16 @@ const FORMAT_OPTIONS: { value: ImageFormat; label: string; mimeType: string }[] 
 export function LogoDownloadPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     }
@@ -37,6 +45,28 @@ export function LogoDownloadPage() {
     return () => document.removeEventListener("keydown", handleEscape);
   }, []);
 
+  const copyLogoUrl = async () => {
+    // Get the full URL for the PNG logo
+    const logoUrl = `${window.location.origin}/assets/StrategistBank-email-logo.png`;
+
+    try {
+      await navigator.clipboard.writeText(logoUrl);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy URL:", err);
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = logoUrl;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    }
+  };
+
   const downloadLogo = async (format: ImageFormat) => {
     setIsConverting(true);
     setIsOpen(false);
@@ -52,7 +82,7 @@ export function LogoDownloadPage() {
         // Convert SVG to raster format using canvas
         const response = await fetch("/assets/logo.svg");
         const svgText = await response.text();
-        
+
         // Create an image from SVG
         const img = new Image();
         const svgBlob = new Blob([svgText], { type: "image/svg+xml" });
@@ -70,7 +100,7 @@ export function LogoDownloadPage() {
         const scale = 2; // 2x for better quality
         canvas.width = img.width * scale || 800;
         canvas.height = img.height * scale || 400;
-        
+
         const ctx = canvas.getContext("2d");
         if (!ctx) throw new Error("Could not get canvas context");
 
@@ -86,7 +116,7 @@ export function LogoDownloadPage() {
         // Convert to desired format
         const formatConfig = FORMAT_OPTIONS.find((f) => f.value === format);
         const mimeType = formatConfig?.mimeType || "image/png";
-        
+
         canvas.toBlob(
           (blob) => {
             if (blob) {
@@ -94,7 +124,7 @@ export function LogoDownloadPage() {
             }
           },
           mimeType,
-          format === "jpg" ? 0.95 : undefined
+          format === "jpg" ? 0.95 : undefined,
         );
       }
     } catch (error) {
@@ -138,7 +168,11 @@ export function LogoDownloadPage() {
         >
           {isConverting ? (
             <>
-              <svg className="animate-spin size-5" viewBox="0 0 24 24" fill="none">
+              <svg
+                className="animate-spin size-5"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
                 <circle
                   className="opacity-25"
                   cx="12"
@@ -165,7 +199,11 @@ export function LogoDownloadPage() {
                 stroke="currentColor"
                 strokeWidth={2}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </>
           )}
@@ -185,11 +223,63 @@ export function LogoDownloadPage() {
                 role="option"
               >
                 <span>{format.label}</span>
-                <span className="text-xs text-[#5f666e] uppercase">.{format.value}</span>
+                <span className="text-xs text-[#5f666e] uppercase">
+                  .{format.value}
+                </span>
               </button>
             ))}
           </div>
         )}
+      </div>
+
+      {/* Copy URL for Email Signature */}
+      <div className="mt-6 flex flex-col items-center gap-2">
+        <p className="text-sm text-[#5f666e] font-garamond">
+          For email signatures:
+        </p>
+        <button
+          onClick={copyLogoUrl}
+          className="flex items-center gap-2 bg-[#4a934f] text-white px-6 py-3 rounded-lg font-outfit font-semibold text-sm uppercase tracking-wide hover:bg-[#3d7a41] transition-colors"
+        >
+          {copySuccess ? (
+            <>
+              <svg
+                className="size-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              URL Copied!
+            </>
+          ) : (
+            <>
+              <svg
+                className="size-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                />
+              </svg>
+              Copy PNG URL
+            </>
+          )}
+        </button>
+        <p className="text-xs text-[#5f666e] font-garamond max-w-xs text-center mt-1">
+          Copies the direct link to the PNG logo with transparent background
+        </p>
       </div>
 
       {/* Back link */}

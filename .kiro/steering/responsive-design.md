@@ -21,7 +21,7 @@ Always write mobile styles first, then add breakpoint prefixes for larger screen
 // Correct - mobile-first
 px-5 sm:px-10 md:px-16 lg:px-20
 
-// Wrong - desktop-first requires overrides
+// Wrong - desktop-first requires overridesr
 px-20 md:px-16 sm:px-10 (don't do this)
 ```
 
